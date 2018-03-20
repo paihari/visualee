@@ -20,8 +20,10 @@ package de.strullerbaumann.visualee.filter.boundary;
  * #L%
  */
 import de.strullerbaumann.visualee.filter.entity.Filter;
-import de.strullerbaumann.visualee.logging.LogProvider;
 import de.strullerbaumann.visualee.source.entity.JavaSource;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +33,14 @@ import java.util.List;
  */
 public final class FilterContainer {
 
+   private Logger logger = LogManager.getLogger(this.getClass());
+
    private static final List<Filter> FILTERS = new ArrayList<>();
 
    public boolean isOk(JavaSource javaSource) {
       for (Filter filter : FILTERS) {
          if ((!filter.isExclude() && filter.isOk(javaSource)) || (filter.isExclude() && !filter.isOk(javaSource))) {
-            LogProvider.getInstance().debug("Filtered " + javaSource.getFullClassName() + " because of " + filter);
+            logger.debug("Filtered " + javaSource.getFullClassName() + " because of " + filter);
             return false;
          } else {
          }

@@ -23,12 +23,14 @@ import de.strullerbaumann.visualee.dependency.boundary.DependencyContainer;
 import de.strullerbaumann.visualee.dependency.boundary.DependencyFilter;
 import de.strullerbaumann.visualee.dependency.entity.Dependency;
 import de.strullerbaumann.visualee.dependency.entity.DependencyType;
-import de.strullerbaumann.visualee.logging.LogProvider;
 import de.strullerbaumann.visualee.source.boundary.JavaSourceContainer;
 import de.strullerbaumann.visualee.source.entity.JavaSource;
 import de.strullerbaumann.visualee.ui.graph.control.Description;
 import de.strullerbaumann.visualee.ui.graph.control.HTMLManager;
 import de.strullerbaumann.visualee.ui.graph.entity.Graph;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -48,6 +50,7 @@ import javax.json.JsonObjectBuilder;
  * @author Thomas Struller-Baumann (contact at struller-baumann.de)
  */
 public final class GraphCreator {
+   private static Logger logger = LogManager.getLogger(GraphCreator.class);
 
    private static int id;
    private static String graphTemplate;
@@ -185,7 +188,7 @@ public final class GraphCreator {
       try (PrintStream ps = new PrintStream(graph.getJsonFile())) {
          ps.println(json.toString());
       } catch (FileNotFoundException ex) {
-         LogProvider.getInstance().error("Didn't found file " + graph.getJsonFile().getName(), ex);
+         logger.error("Didn't found file " + graph.getJsonFile().getName(), ex);
       }
       return graph;
    }

@@ -1,19 +1,48 @@
 visualee
 ========
 
-A maven plugin to visualize a java ee project.
+A gradle plugin to visualize a java ee project.
 
-Please look into the [wiki](https://github.com/thomas-s-b/visualee/wiki).
+This is the extension of maven plugin project created by thomas-s-b. 
+https://github.com/Thomas-S-B/visualee
 
 Some notes to the implementation:
-Visualee scans the java-source-files for relevant dependencies.
-The dependencies are generated as JSON-Files.
-This JSON-Files are the input for the d3.js-visualisation.
-The GUI uses jquery and jquery-ui.
+- The source code from VisualEE maven plugin is used
+- The gradle plugin is published online at 
+  https://paihari.github.io/repo/
 
-Why not using java-reflection?
+## To Compile the plugin
 
-Early versions used java reflection to examine the java-classes, but i decided against it and prefer a simple scan of the source-files, because:
-- it's possible to visualize even not compilable code (useful at the beginning of developing or in emergency cases)
-- it's easier to implement visualee to other languages
-- much less trouble with plugin-configuration, because the classes must be loadable (cue: „absent code...“, implemenation of the EE-Stack must be included).
+- Run ./gradlew clean build uploadArchives
+- Compiled plugin will be created in folder repo
+
+## To use the plugin in a project
+
+- Add the below code snippet to your build.gradle
+
+```groovy
+buildscript {
+    repositories {
+        maven {
+            url 'https://paihari.github.io/repo/'
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'com.gundi', name: 'visualee.plugin', version: '1.0'
+    }
+}
+
+apply plugin: 'com.gundi.visualee.plugin'
+
+visualEEPluginName {
+
+    sourceDir = file('./src/')
+    outputDir = file('./out')
+}
+```
+- The sourceDir should point to the Java source folder where the visualization is intended
+- outputDir, folder where the visualiazion artifacts will be rendered
+- If the classes are not shown, try python -m SimpleHTTPServer through terminal in out folder
+- Access the visualization through http://localhost:8000
+

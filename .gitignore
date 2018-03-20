@@ -1,1 +1,4 @@
-/nbproject/
+.gradle
+.idea
+build
+repo

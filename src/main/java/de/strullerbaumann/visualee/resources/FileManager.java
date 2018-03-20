@@ -19,7 +19,8 @@ package de.strullerbaumann.visualee.resources;
  * limitations under the License.
  * #L%
  */
-import de.strullerbaumann.visualee.logging.LogProvider;
+import org.apache.log4j.LogManager;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +41,8 @@ import java.util.logging.Logger;
  * @author Thomas Struller-Baumann (contact at struller-baumann.de)
  */
 public final class FileManager {
+
+   private static org.apache.log4j.Logger logger = LogManager.getLogger(FileManager.class);
 
    private FileManager() {
    }
@@ -88,7 +91,7 @@ public final class FileManager {
          Path out = Paths.get(targetFolder + sourceFolder + fileName);
          Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
       } catch (IOException exc) {
-         LogProvider.getInstance().error("Can't export " + fileName + " from " + sourceFolder + " (jar) to " + targetFolder, exc);
+         logger.error("Can't export " + fileName + " from " + sourceFolder + " (jar) to " + targetFolder, exc);
       }
    }
 }

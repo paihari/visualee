@@ -22,10 +22,12 @@ package de.strullerbaumann.visualee.examiner;
 import de.strullerbaumann.visualee.dependency.boundary.DependencyContainer;
 import de.strullerbaumann.visualee.dependency.entity.Dependency;
 import de.strullerbaumann.visualee.dependency.entity.DependencyType;
-import de.strullerbaumann.visualee.logging.LogProvider;
 import de.strullerbaumann.visualee.source.boundary.JavaSourceContainer;
 import de.strullerbaumann.visualee.source.entity.JavaSource;
 import de.strullerbaumann.visualee.source.entity.JavaSourceFactory;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Scanner;
@@ -37,6 +39,8 @@ import java.util.regex.Pattern;
  * @author Thomas Struller-Baumann (contact at struller-baumann.de)
  */
 public abstract class Examiner {
+
+   private Logger logger = LogManager.getLogger(this.getClass());
 
    private static final String[] JAVA_TOKENS = {
       "void",
@@ -72,7 +76,7 @@ public abstract class Examiner {
                   examineDetail(javaSource, scanner, token, type);
                }
             } catch (Exception e) {
-               LogProvider.getInstance().error("### Problems while examining " + javaSource.getPackagePath() + "." + javaSource + " actual token was " + token, e);
+               logger.error("### Problems while examining " + javaSource.getPackagePath() + "." + javaSource + " actual token was " + token, e);
             }
          }
       }
@@ -230,12 +234,12 @@ public abstract class Examiner {
          if (injectedJavaSource != null) {
             JavaSourceContainer.getInstance().add(injectedJavaSource);
             if (isAValidClassName(className)) {
-               LogProvider.getInstance().debug("Created new JavaSource with name: " + className);
+               logger.debug("Created new JavaSource with name: " + className);
             } else {
-               LogProvider.getInstance().debug("Created new JavaSource (type=" + type.name() + ") with a suspicious name: " + className + " - Found in " + javaSource.getFullClassName());
+               logger.debug("Created new JavaSource (type=" + type.name() + ") with a suspicious name: " + className + " - Found in " + javaSource.getFullClassName());
             }
          } else {
-            LogProvider.getInstance().debug("Didn't created new JavaSource, because of filter, with name: " + className);
+            logger.debug("Didn't created new JavaSource, because of filter, with name: " + className);
          }
       }
       //### TODO Dependency nur anlegen,  wenn JavaSource nicht gefiltert

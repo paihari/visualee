@@ -20,8 +20,10 @@ package de.strullerbaumann.visualee.source.entity;
  * #L%
  */
 import de.strullerbaumann.visualee.examiner.Examiner;
-import de.strullerbaumann.visualee.logging.LogProvider;
 import de.strullerbaumann.visualee.source.boundary.JavaSourceContainer;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
@@ -35,6 +37,7 @@ import java.util.Scanner;
  * @author Thomas Struller-Baumann (contact at struller-baumann.de)
  */
 public class JavaSource {
+   private Logger logger = LogManager.getLogger(this.getClass());
 
    private static final int HASH = 7;
    private static final int HASH_MULTIPLIER = 13;
@@ -172,9 +175,9 @@ public class JavaSource {
             loadedSourceCode.append(sourceCodeLine).append('\n');
          }
       } catch (IOException ex) {
-         LogProvider.getInstance().error("Problems (perhaps: is encoding valid?) while reading " + this.getJavaFile(), ex);
+         logger.error("Problems (perhaps: is encoding valid?) while reading " + this.getJavaFile(), ex);
       } catch (UnsupportedCharsetException ex) {
-         LogProvider.getInstance().error("Not valid encoding is configured in the pom.", ex);
+         logger.error("Not valid encoding is configured in the pom.", ex);
       }
       setSourceCode(loadedSourceCode.toString());
    }

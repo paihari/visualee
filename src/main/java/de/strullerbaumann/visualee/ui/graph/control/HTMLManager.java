@@ -21,8 +21,10 @@ package de.strullerbaumann.visualee.ui.graph.control;
  */
 import de.strullerbaumann.visualee.filter.boundary.FilterContainer;
 import de.strullerbaumann.visualee.filter.entity.Filter;
-import de.strullerbaumann.visualee.logging.LogProvider;
 import de.strullerbaumann.visualee.ui.graph.entity.Graph;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,6 +41,8 @@ import java.util.Date;
  */
 public final class HTMLManager {
 
+   private static Logger logger = LogManager.getLogger(HTMLManager.class);
+
    private HTMLManager() {
    }
 
@@ -53,7 +57,7 @@ public final class HTMLManager {
             htmlTemplateBuilder.append(System.lineSeparator());
          }
       } catch (IOException ex) {
-         LogProvider.getInstance().error("can't load " + graphTemplatePath, ex);
+         logger.error("can't load " + graphTemplatePath, ex);
       }
 
       return htmlTemplateBuilder.toString();
@@ -86,7 +90,7 @@ public final class HTMLManager {
       try (PrintStream ps = new PrintStream(htmlFile)) {
          ps.println(indexHtml);
       } catch (FileNotFoundException ex) {
-         LogProvider.getInstance().error("Didn't found index.html template", ex);
+         logger.error("Didn't found index.html template", ex);
       }
    }
 
@@ -105,7 +109,7 @@ public final class HTMLManager {
       try (PrintStream ps = new PrintStream(graph.getHtmlFile())) {
          ps.println(html);
       } catch (FileNotFoundException ex) {
-         LogProvider.getInstance().error("Didn't found " + graph.getHtmlFile(), ex);
+         logger.error("Didn't found " + graph.getHtmlFile(), ex);
       }
    }
 }

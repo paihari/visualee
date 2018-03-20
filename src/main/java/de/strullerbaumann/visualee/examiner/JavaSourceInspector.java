@@ -19,9 +19,11 @@ package de.strullerbaumann.visualee.examiner;
  * limitations under the License.
  * #L%
  */
-import de.strullerbaumann.visualee.logging.LogProvider;
 import de.strullerbaumann.visualee.source.boundary.JavaSourceContainer;
 import de.strullerbaumann.visualee.source.entity.JavaSource;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +34,8 @@ import java.util.Map;
  * @author Thomas Struller-Baumann (contact at struller-baumann.de)
  */
 public final class JavaSourceInspector {
+
+   private Logger logger = LogManager.getLogger(this.getClass());
 
    private static final List<Examiner> EXAMINERS = new ArrayList<>();
 
@@ -58,7 +62,7 @@ public final class JavaSourceInspector {
    public void examine() {
       // Examine javaSources
       for (JavaSource javaSource : JavaSourceContainer.getInstance().getJavaSources()) {
-         LogProvider.getInstance().debug("Examining: " + javaSource.getFullClassName());
+         logger.debug("Examining: " + javaSource.getFullClassName());
          for (Examiner examiner : getExaminers()) {
             examiner.examine(javaSource);
          }

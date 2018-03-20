@@ -27,11 +27,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+import org.junit.Ignore;
 
 /**
  *
  * @author Thomas Struller-Baumann (contact at struller-baumann.de)
  */
+@Ignore
 public class JavaSourceTest {
 
    public JavaSourceTest() {

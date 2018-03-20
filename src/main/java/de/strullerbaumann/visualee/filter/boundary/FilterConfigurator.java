@@ -24,7 +24,9 @@ import de.strullerbaumann.visualee.filter.entity.Filter;
 import de.strullerbaumann.visualee.filter.entity.FilterConfig;
 import de.strullerbaumann.visualee.filter.entity.PackageFilter;
 import de.strullerbaumann.visualee.filter.entity.SourcecodeFilter;
-import de.strullerbaumann.visualee.logging.LogProvider;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.util.List;
 
 /**
@@ -32,6 +34,8 @@ import java.util.List;
  * @author Thomas Struller-Baumann (contact at struller-baumann.de)
  */
 public final class FilterConfigurator {
+
+   private static Logger logger = LogManager.getLogger(FilterConfigurator.class);
 
    FilterConfigurator() {
    }
@@ -50,7 +54,7 @@ public final class FilterConfigurator {
             filter = new SourcecodeFilter();
          }
          if (filter == null) {
-            LogProvider.getInstance().warn("Unknown filter configured: " + filterConfig.getType());
+            logger.warn("Unknown filter configured: " + filterConfig.getType());
          } else {
             filter.setFilterToken(filterConfig.getFilterToken());
             filter.setExclude(filterConfig.getExclude());
